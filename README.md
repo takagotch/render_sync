@@ -164,10 +164,30 @@ CacheDigests::DependencyTracker.register_tracker :erb, Sync::ERBTracker
 
 def UsersController < ApplicaitonController
   def create
+    @user = User.new(user_params)
+    if @user.save
+      sync_new @user
+    end
+    respond_to do |format|
+      format.html { redirect_to users_url }
+      format.json { head :no_content }
+    end
   end
   def update
+    @user = User.find(params[:id])
+    if user.save
+    end
+    sync_update @user
+    redirect_to users_path, notice: "Saved!"
   end
   def destory
+    @user = User.find(params[:id])
+    @user.destroy
+    sync_destroy @user
+    respond_to do |format|
+      format.html { redirect_to users_url }
+      format.json { head :no_content }
+    end
   end
 end
 ```
