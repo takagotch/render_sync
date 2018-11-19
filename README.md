@@ -154,13 +154,13 @@ def UsersController < ApplicationController
   end
 end
 
-require ''
+require 'action_view/dependency_tracker'
 ActionView::DependencyTracker.register_tracker :haml, Sync::ERBTracker
-A
+ActionView::DependencyTracker.register_tracker :erb, Sync::ERBTracker
 
-require ''
-Cache
-C
+require 'cache_digests/dependency_tracker'
+CacheDigests::DependencyTracker.resister_tracker :haml, Sync::ERBTracker
+CacheDigests::DependencyTracker.register_tracker :erb, Sync::ERBTracker
 
 def UsersController < ApplicaitonController
   def create
@@ -173,5 +173,11 @@ end
 ```
 
 ```yml
+port: 4443
+ssl: true
+ssl_key_file: /path/to/server.pem
+ssl_cert_file: /path/to/certificate_chain.pem
+environment: production
+rackup: sync.ru
 
 ```
